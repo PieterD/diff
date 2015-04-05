@@ -55,16 +55,3 @@ func (str Strings) Equal(left, right int) bool {
 func (str Strings) Length() (int, int) {
 	return len(str.Left), len(str.Right)
 }
-
-// Holds byte slices to diff, one character at a time.
-type Bytes struct {
-	Left, Right []byte
-}
-
-func (b Bytes) Equal(left, right int) bool {
-	return b.Left[left] == b.Right[right]
-}
-
-func (b Bytes) Length() (int, int) {
-	return len(b.Left), len(b.Right)
-}
