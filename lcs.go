@@ -1,5 +1,7 @@
 package diff
 
+// Runs a diff on the given Interface.
+// Returns the results as a slice of Diff.
 func New(iface Interface) []Diff {
 	table := lcs(iface)
 	diff := walk(iface, table)
