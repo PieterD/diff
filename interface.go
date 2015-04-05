@@ -23,6 +23,18 @@ const (
 	Right
 )
 
+func (delta Delta) String() string {
+	switch delta {
+	case Both:
+		return "Both"
+	case Left:
+		return "Left"
+	case Right:
+		return "Right"
+	}
+	return "unknown"
+}
+
 // One Diff record per element.
 // If Delta is Left or Both, Index is for the left collection.
 // If Delta is Right, Index is for the right collection.
