@@ -5,14 +5,7 @@ package diff
 func New(iface Interface) []Diff {
 	table := lcs(iface)
 	diff := walk(iface, table)
-	// Reverse
-	i := 0
-	j := len(diff) - 1
-	for i < j {
-		diff[i], diff[j] = diff[j], diff[i]
-		i++
-		j--
-	}
+	reverse(diff)
 	return diff
 }
 
@@ -74,5 +67,15 @@ func walk(iface Interface, table [][]int) (diff []Diff) {
 				}
 			}
 		}
+	}
+}
+
+func reverse(diff []Diff) {
+	i := 0
+	j := len(diff) - 1
+	for i < j {
+		diff[i], diff[j] = diff[j], diff[i]
+		i++
+		j--
 	}
 }
