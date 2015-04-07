@@ -19,6 +19,8 @@ func genStr(size int, ratio float64) []byte {
 	return b
 }
 
+var str = genStr(500, 0.5)
+
 func strPart(b []byte) []byte {
 	i := rand.Int31n(int32(len(b)))
 	j := i + rand.Int31n(int32(len(b))-i)
@@ -27,11 +29,15 @@ func strPart(b []byte) []byte {
 
 func BenchmarkSame(b *testing.B) {
 	for i := 0; i < b.N; i++ {
-		diff.New(Bytes{[]byte("ababaaabababbababbaabbaabababaa"), []byte("aaababbbababaabababababbabababababababababababbabbbabababaaabbb")})
+		diff.New(Bytes{[]byte(str), []byte(str)})
 	}
 }
 
-var str = genStr(500, 0.5)
+func BenchmarkNotRandom(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		diff.New(Bytes{[]byte("ababaaabababbababbaabbaabababaa"), []byte("aaababbbababaabababababbabababababababababababbabbbabababaaabbb")})
+	}
+}
 
 func BenchmarkRandom(b *testing.B) {
 	for i := 0; i < b.N; i++ {
