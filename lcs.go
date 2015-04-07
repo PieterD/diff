@@ -49,6 +49,7 @@ func lcs(iface Interface) [][]int {
 // http://en.wikipedia.org/wiki/Longest_common_subsequence_problem#Example
 func walk(iface Interface, table [][]int) (diff []Diff) {
 	i, j := iface.Length()
+	diff = make([]Diff, 0, i+j)
 	for {
 		if i == 0 && j == 0 {
 			return
