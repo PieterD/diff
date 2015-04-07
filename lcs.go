@@ -22,8 +22,10 @@ func lcs(iface Interface) [][]int {
 	lnum, rnum := iface.Length()
 	rows, cols := lnum+1, rnum+1
 	table := make([][]int, rows)
+	cels := make([]int, rows*cols)
 	for i := 0; i < rows; i++ {
-		table[i] = make([]int, cols)
+		table[i] = cels[:cols]
+		cels = cels[cols:]
 	}
 
 	for i := 1; i < rows; i++ {
