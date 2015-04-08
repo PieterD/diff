@@ -46,3 +46,19 @@ func BenchmarkRandom(b *testing.B) {
 		diff.New(Bytes{a, b})
 	}
 }
+
+func BenchmarkLeft(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		left := str[250:]
+		right := str
+		diff.New(Bytes{left, right})
+	}
+}
+
+func BenchmarkRight(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		left := str
+		right := str[250:]
+		diff.New(Bytes{left, right})
+	}
+}
