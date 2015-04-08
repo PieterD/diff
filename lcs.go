@@ -3,8 +3,10 @@ package diff
 // Runs a diff on the given Interface.
 // Returns the results as a slice of Diff.
 func New(iface Interface) []Diff {
+	lnum, rnum := iface.Length()
+	diff := make([]Diff, 0, lnum+rnum)
 	table := lcs(iface)
-	diff := walk(iface, table)
+	diff = walk(iface, table, diff)
 	reverse(diff)
 	return diff
 }
@@ -40,12 +42,11 @@ func lcs(iface Interface) [][]int {
 
 // Walk the lcs table
 // http://en.wikipedia.org/wiki/Longest_common_subsequence_problem#Example
-func walk(iface Interface, table [][]int) (diff []Diff) {
+func walk(iface Interface, table [][]int, diff []Diff) []Diff {
 	i, j := iface.Length()
-	diff = make([]Diff, 0, i+j)
 	for {
 		if i == 0 && j == 0 {
-			return
+			return diff
 		} else if i == 0 {
 			j--
 			diff = append(diff, Diff{Delta: Right, Index: j})
