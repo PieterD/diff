@@ -3,18 +3,18 @@ package diff
 // Runs a diff on the given Interface.
 // Returns the results as a slice of Diff.
 func New(iface Interface) []Diff {
-	lnum, rnum := iface.Length()
-	diff := make([]Diff, 0, lnum+rnum)
-	table := lcs(iface)
-	diff = walk(iface, table, diff)
+	l, r := iface.Length()
+	diff := make([]Diff, 0, l+r)
+	table := lcs(iface, l, r)
+	diff = walk(iface, l, r, table, diff)
 	reverse(diff)
 	return diff
 }
 
 // Constructs a LCSLength table
 // http://en.wikipedia.org/wiki/Longest_common_subsequence_problem#Computing_the_length_of_the_LCS
-func lcs(iface Interface) [][]int {
-	lnum, rnum := iface.Length()
+func lcs(iface Interface, l, r int) [][]int {
+	lnum, rnum := l, r
 	rows, cols := lnum+1, rnum+1
 	table := make([][]int, rows)
 	cels := make([]int, rows*cols)
@@ -42,8 +42,8 @@ func lcs(iface Interface) [][]int {
 
 // Walk the lcs table
 // http://en.wikipedia.org/wiki/Longest_common_subsequence_problem#Example
-func walk(iface Interface, table [][]int, diff []Diff) []Diff {
-	i, j := iface.Length()
+func walk(iface Interface, l, r int, table [][]int, diff []Diff) []Diff {
+	i, j := l, r
 	for {
 		if i == 0 && j == 0 {
 			return diff
