@@ -5,9 +5,29 @@ package diff
 func New(iface Interface) []Diff {
 	l, r := iface.Length()
 	diff := make([]Diff, 0, l+r)
-	table := lcs(iface, l, r)
-	diff = walk(iface, l, r, table, diff)
+	diff = snip(iface, l, r, diff)
+	l -= len(diff)
+	r -= len(diff)
+	if l != 0 || r != 0 {
+		table := lcs(iface, l, r)
+		diff = walk(iface, l, r, table, diff)
+	}
 	reverse(diff)
+	return diff
+}
+
+func snip(iface Interface, l, r int, diff []Diff) []Diff {
+	min := l
+	if r < min {
+		min = r
+	}
+	for i := 0; i < min; i++ {
+		if iface.Equal(l-1-i, r-1-i) {
+			diff = append(diff, Diff{Delta: Both, Index: l - 1 - i})
+		} else {
+			break
+		}
+	}
 	return diff
 }
 
