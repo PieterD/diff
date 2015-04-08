@@ -5,18 +5,23 @@ package diff
 func New(iface Interface) []Diff {
 	l, r := iface.Length()
 	diff := make([]Diff, 0, l+r)
-	diff = snip(iface, l, r, diff)
+	diff = snipEnd(iface, l, r, diff)
 	l -= len(diff)
 	r -= len(diff)
-	if l != 0 || r != 0 {
+	if l != 0 && r != 0 {
 		table := lcs(iface, l, r)
 		diff = walk(iface, l, r, table, diff)
+	} else if l != 0 {
+		diff = remainingOneSide(iface, l, Left, diff)
+	} else if r != 0 {
+		diff = remainingOneSide(iface, r, Right, diff)
 	}
 	reverse(diff)
 	return diff
 }
 
-func snip(iface Interface, l, r int, diff []Diff) []Diff {
+// Handle the identical Left and Right tails.
+func snipEnd(iface Interface, l, r int, diff []Diff) []Diff {
 	min := l
 	if r < min {
 		min = r
@@ -27,6 +32,14 @@ func snip(iface Interface, l, r int, diff []Diff) []Diff {
 		} else {
 			break
 		}
+	}
+	return diff
+}
+
+// Handle the rest of the diff, if one of the two collections is exhausted after snipEnd.
+func remainingOneSide(iface Interface, idx int, delta Delta, diff []Diff) []Diff {
+	for i := 0; i < idx; i++ {
+		diff = append(diff, Diff{Delta: delta, Index: idx - 1 - i})
 	}
 	return diff
 }
