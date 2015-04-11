@@ -1,5 +1,6 @@
 package diff
 
+// Describe in which collection the element occurs; Left, Right or Both.
 type Delta int
 
 const (
