@@ -1,7 +1,7 @@
 diff
 ====
 
-[![GoDoc](https://github.com/PieterD/diff?status.svg)](https://github.com/PieterD/diff)
+[![GoDoc](https://godoc.org/github.com/PieterD/diff?status.svg)](https://godoc.org/github.com/PieterD/diff)
 
 A small library to diff data.
 
